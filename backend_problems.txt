@@ -1,0 +1,14 @@
+https://nodejs.org/en/blog/vulnerability/july-2017-security-releases/
+
+https://stackoverflow.com/questions/45081059/what-is-constant-hashtable-seeds-vulnerability
+
+
+Constant HashTable Seeds Vulnerability
+
+HashTables fulfill the dream of constant time insertions and access. A HashTable is a group of linked lists, the linked-lists must be small in order for the performance to be good.
+
+This attack happens when the attacker over saturates one linked list inside the hashtable, resulting in huge access times, slowing the whole node process. thus the denying of service attack vulnerability.
+
+NodeJS prevents attackers from abusing one linked-list inside the hashtable by randomizing the hash function algorithm as they introduce random seeds for the algorithm at the initialization time.
+
+The bug was that the random seed was always constant (random but never changing) across each version of node (as it is initialized during compiling of node code), the reason behind this is that the V8 engine takes a snapshot of the initialized context, and reuse it on the next boots, to make things faster. so the attacker can now know the algorithm and its seed, allowing the attacker to abuse the hashtable and oversaturate one linked list.
